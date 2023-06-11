@@ -54,7 +54,9 @@
     </div>
    <div class="form_place"></div>
    {% if "success_wadifa" in session and session["success_wadifa"] %}
-    {{href}}
+    <a href="{{url_for('download_file',filename=session['named_file']+'.xlsx')}}">Telecharger</a>
+    
+   
     {% else %}
     {{message}}
    {% endif %}
@@ -80,8 +82,8 @@
                             <input type="text" name="sans_offrenom" class="form-control mb-2"  id="">
                         </div>
                         <div class="col-sm">
-                            <label for="">Numero de Postes disponibles: </label><br>
-                            <input type="number" name="sans_offrenombre" class="form-control mb-2"  id="">
+                            <label for="">Nommer Votre Fichier: </label><br>
+                            <input type="text" name="nomfile" class="form-control mb-2"  id="">
                         </div>
                     </div>
                     <div class="row justify-content-center mt-3">

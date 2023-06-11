@@ -1,4 +1,4 @@
-from flask import Flask , render_template, request , redirect ,session,jsonify,url_for
+from flask import Flask , render_template, request , redirect ,session,jsonify,url_for,send_from_directory
 from datetime import datetime
 import secrets
 from flask_mysqldb import MySQL
@@ -6,7 +6,7 @@ from flask_mysqldb import MySQL
 from bs4 import BeautifulSoup
 import urllib.request
 import pandas as pd
-from os import path , mkdir
+import os
 import time as t
 
 app = Flask(__name__)
@@ -161,65 +161,30 @@ def alwadifa_scraping(keyword,named_file):
 
     if len(jobs) > 0:
         df = pd.DataFrame(jobs)
-        if path.exists("/Files"):
-           mkdir("Files")
+       
 
       
-        t.sleep(2)
-        filepath = f"{named_file}.xlsx"
-        df.to_excel(f"Files/{filepath}", index=False)
-        # print(f"Les données ont été enregistrées dans le fichier '{filepath}'.")
+    
+        # filepath = f"/Files/{named_file}.xlsx"
+        # df.to_excel(f"{filepath}", index=True)
+        
+        directory = 'Files'
+        if not os.path.exists(directory):
+           os.makedirs(directory)
+        filepath = os.path.join(directory, f"{named_file}.xlsx")
+        df.to_excel(filepath, index=True)
+       
         
     else:
-        return "aucun Poste trouvé"
+        return "auncun"
 # end Scrapping Function wadifa sans filter
 
-def alwadifa_scraping2(keyword):
-    base_url = f"http://www.alwadifa-maroc.com/search?query={keyword}"
-    jobs = []
-
-    url = base_url
-    print(f"Scraping: {url}")
-
-    webpage = urllib.request.urlopen(url)
-    soup = BeautifulSoup(webpage, "html.parser")
-    job_elements_ar_deux = soup.find_all("div", {"class": "bloc-content ar deux"})
-    job_elements_fr_deux = soup.find_all("div", {"class": "bloc-content fr deux"})
-    job_elements_fr_prem = soup.find_all("div", {"class": "bloc-content fr prem"})
-    job_elements_ar_prem = soup.find_all("div", {"class": "bloc-content ar prem"})
-
-    job_elements = job_elements_ar_deux + job_elements_fr_deux + job_elements_fr_prem + job_elements_ar_prem
-    
-    if len(job_elements) == 0:
-        print("Aucune offre d'emploi correspondante n'a été trouvée.")
-        return
-
-    for job_element in job_elements:
-        job_title = job_element.find("a").text.strip()
-        job_company = job_element.find("img").get("alt")
-        job_description = job_element.find("p").text.strip()
-        job_date = job_element.find_all("li")[0].text.strip()
-
-        job_link = "www.alwadifa-maroc.com" + job_element.find("a").get("href")
-
-        jobs.append({
-            "Titre de l'offre": job_title,
-            "Titre de l'entreprise": job_company,
-            "Description de l'offre": job_description,
-            "Date de l'offre": job_date,
-            "Lien de l'offre": job_link
-        })
-
-    if len(jobs) > 0:
-        df = pd.DataFrame(jobs)
-        filepath = "offres_wadifa.xlsx"
-        df.to_excel(filepath, index=False)
-        print(f"Les données ont été enregistrées dans le fichier '{filepath}'.")
-    else:
-        print("Aucune offre d'emploi n'a été trouvée.")
-
-
 # Scrapping Routes 
+
+@app.route('/download/<path:filename>')
+def download_file(filename):
+    directory = 'Files'  # Name of the folder
+    return send_from_directory(directory, filename, as_attachment=True)
 
 @app.route("/wadifashow")
 def wshow():
@@ -230,26 +195,32 @@ def wpost():
      current_datetime = datetime.now()
      formatted_datetime = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
      nom_offre=request.form["sans_offrenom"]
+     nom_fichier=request.form["nomfile"]
      
      
-     filename=session["user_name"]+formatted_datetime+"_"+".xlsx"
-     if alwadifa_scraping(nom_offre,"toto") !="aucun Poste trouvé":
-          alwadifa_scraping(nom_offre,"toto")
-          return jsonify("success")
-        #   session["success_wadifa"]=True
-        #   cursor=mysql.connection.cursor()
-        #   cursor.execute("INSERT INTO files(name,user_id) VALUES(%s,%s)",(nom_offre,session["user_id"]))
-        #   mysql.connection.commit()
-        #   cursor.close()
+     
+     if alwadifa_scraping(nom_offre,nom_fichier) != "aucun":
+          alwadifa_scraping(nom_offre,nom_fichier)
           
-        #   return render_template("wadifa.html",href=filename)
+          session["success_wadifa"]=True
+          session["named_file"]=nom_fichier
+          cursor=mysql.connection.cursor()
+          cursor.execute("INSERT INTO files(name,user_id) VALUES(%s,%s)",(nom_offre,session["user_id"]))
+          mysql.connection.commit()
+          cursor.close()
+          
+          return render_template("wadifa.html",href=session["named_file"])
         
      else : 
          return jsonify("unsucess")
 
           
     
-              
+# @app.route('/<path:filename>')
+# def download_file(filename):
+#     # Provide the path to the directory where the file is located
+#     directory = '/path/to/file/directory'
+#     return send_from_directory(directory, filename, as_attachment=True)             
            
          
 

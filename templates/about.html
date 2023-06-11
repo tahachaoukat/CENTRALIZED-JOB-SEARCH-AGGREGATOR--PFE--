@@ -1,269 +1,352 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-<script src="
-https://cdn.jsdelivr.net/npm/sweetalert2@11.7.11/dist/sweetalert2.all.min.js
-"></script>
-<style>
-    
-  body {
-    font-family: "Rubik", sans-serif;
-    color: #1c1c1c;
-    line-height: 1.5;
-  }
-  h2 {
-    font-size: 40px;
-    font-weight: 700;
-  }
-  h6 {
-    font-size: 16px;
-  }
-  p {
-    font-size: 16px;
-    line-height: 26px;
-    color: #afb4b9;
-    font-weight: normal;
-  }
- 
-  
-  i {
-    vertical-align: middle;
-  }
-  ul {
-    padding: 0 !important;
-  }
-  li {
-    list-style: none;
-  }
-  .color-base {
-    color: #2b42f7;
-  }
-  .bg-one-dark {
-    background: #d8d8d8 !important;
-  }
-  .p-100 {
-    padding-top: 100px;
-    padding-bottom: 100px;
-  }
-  .mt-50 {
-    margin-top: 50px;
-  }
-  .btn {
-    text-transform: uppercase;
-  }
-  .btn:focus {
-    box-shadow: none;
-  }
-  .btn:hover {
-    color: #fff;
-  }
-  .btn-medium {
-    font-family: "Rubik", sans-serif;
-    background: transparent;
-    color: #fabf15;
-    font-weight: 600;
-    font-size: 16px;
-    padding: 14px 45px;
-    border-radius: 4px;
-    border: 1px solid #fabf15;
-    -webkit-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
-  }
-  .btn-medium:hover {
-    background: #fabf15;
-    color: #222;
-    -webkit-box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
-    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
-    transform: translateY(-3px);
-    -ms-transform: translateY(-3px);
-    -webkit-transform: translateY(-3px);
-  }
-  .btn-fill {
-    background: #1554d2 !important;
-    color: #e3e3e3 !important;
-  }
-  .btn-fill:hover {
-    background: #2879eb;
-    border-color: #e3e3e3;
-  }
-  .about-info {
-    border: 2px solid rgba(255, 255, 255, 0.2);
-  }
-  #about-section img {
-    position: relative;
-    z-index: 1;
-  }
-  .inline-social ul li {
-    display: inline-block;
-    margin-right: 10px;
-  }
-  .bullet-check li {
-    position: relative;
-    padding-left: 30px;
-    padding-bottom: 10px;
-    color: #131313;
-  }
-  .bullet-check li:last-child {
-    padding-bottom: 0;
-  }
-  .bullet-check li:before {
-    position: absolute;
-    content: "\f00c";
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    font-size: 15px;
-    left: 0;
-  }
-  
-  /*! responsive */
-  @media (max-width: 480px) {
-    .about-info-wrap {
-      padding: 10px !important;
-      margin-top: 30px;
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.11/dist/sweetalert2.all.min.js"></script>
+  <style>
+   
+    body {
+      font-family: "Rubik", sans-serif;
+      color: #1c1c1c;
+      line-height: 1.5;
     }
-    .about-info {
-      padding: 30px !important;
-    }
-  }
-  @media (max-width: 767px) {
-    h2 {
-      font-size: 32px;
-    }
-    .wrap-button img {
-      margin-top: 20px;
-    }
-    .about-info-wrap {
-      padding: 10px !important;
-      margin-top: 30px;
-    }
-    .about-info {
-      padding: 30px !important;
-    }
-  }
-  @media (min-width: 768px) and (max-width: 991px) {
-    h2 {
-      font-size: 30px;
-    }
-    .wrap-button img {
-      margin-top: 20px;
-    }
-    .about-bullet {
-      max-width: 100%;
-      flex: 100%;
-    }
-    .about-info-wrap {
-      padding: 10px !important;
-      margin-top: 30px;
-    }
-    .about-info {
-      padding: 30px !important;
-    }
-  }
-  @media (min-width: 992px) and (max-width: 1199px) {
-    .about-bullet {
-      max-width: 100%;
-      flex: 100%;
-    }
-  }
-      
 
+    h2 {
+      font-size: 40px;
+      font-weight: 700;
+    }
 
-</style>
+    h6 {
+      font-size: 16px;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 26px;
+      color: #0b0c0c;
+      font-weight:bolder;
+    }
+    .panel-footer{
+      padding-top: 40px;
+      padding-bottom: 40px;
+      margin-top: 40px;
+      border-top: 1px solid #632828;
+      background-color: #903636c2;
+     
+    }
+
+    i {
+      vertical-align: middle;
+    }
+
+    ul {
+      padding: 0 !important;
+    }
+
+    li {
+      list-style: none;
+    }
+
+    .color-base {
+      color: #347883;
+    }
+
+    .bg-one-dark {
+      background: #d8d8d8 !important;
+    }
+
+    .p-100 {
+      padding-top: 100px;
+      padding-bottom: 100px;
+    }
+
+    .mt-50 {
+      margin-top: 50px;
+    }
+
+    .btn {
+      text-transform: uppercase;
+    }
+
+    .btn:focus {
+      box-shadow: none;
+    }
+
+    .btn:hover {
+      color: #fff;
+    }
+
+    .btn-medium {
+      font-family: "Rubik", sans-serif;
+      background: transparent;
+      color: #fabf15;
+      font-weight: 600;
+      font-size: 16px;
+      padding: 14px 45px;
+      border-radius: 4px;
+      border: 1px solid #fabf15;
+      -webkit-transition: all 0.3s ease-in-out;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .btn-medium:hover {
+      background: #fabf15;
+      color: #222;
+      -webkit-box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+      transform: translateY(-3px);
+      -ms-transform: translateY(-3px);
+      -webkit-transform: translateY(-3px);
+    }
+
+    .btn-fill {
+      background: #1554d2 !important;
+      color: #e3e3e3 !important;
+    }
+
+    .btn-fill:hover {
+      background: #2879eb;
+      border-color: #e3e3e3;
+    }
+
+    .about-info {
+      border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
+    #about-section img {
+      position: relative;
+      z-index: 1;
+    }
+
+    .inline-social ul li {
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    .bullet-check li {
+      position: relative;
+      padding-left: 30px;
+      padding-bottom: 10px;
+      color: #131313;
+    }
+
+    .bullet-check li:last-child {
+      padding-bottom: 0;
+    }
+
+    .bullet-check li:before {
+      position: absolute;
+      content: "\f00c";
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      font-size: 15px;
+      left: 0;
+    }
+.card{
+  box-shadow: 0.5px 0.5px 10px grey;
+}
+    /*! responsive */
+    @media (max-width: 480px) {
+      .about-info-wrap {
+        padding: 10px !important;
+        margin-top: 30px;
+      }
+
+      .about-info {
+        padding: 30px !important;
+      }
+    }
+
+    @media (max-width: 767px) {
+      h2 {
+        font-size: 32px;
+      }
+
+      .wrap-button img {
+        margin-top: 20px;
+      }
+
+      .about-info-wrap {
+        padding: 10px !important;
+        margin-top: 30px;
+      }
+
+      .about-info {
+        padding: 30px !important;
+      }
+    }
+
+    @media (min-width: 768px) and (max-width: 991px) {
+      h2 {
+        font-size: 30px;
+      }
+
+      .wrap-button img {
+        margin-top: 20px;
+      }
+
+      .about-bullet {
+        max-width: 100%;
+        flex: 100%;
+      }
+
+      .about-info-wrap {
+        padding: 10px !important;
+        margin-top: 30px;
+      }
+
+      .about-info {
+        padding: 30px !important;
+      }
+    }
+
+    @media (min-width: 992px) and (max-width: 1199px) {
+      .about-bullet {
+        max-width: 100%;
+        flex: 100%;
+      }
+    }
+  </style>
 </head>
 
 <body>
-    {% if "user_logged" in session and session["user_logged"] %}
-    <header>
-      <nav class="navbar navbar-expand-lg bg-body-tertiary">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="/">JOB FINDER</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-              <ul class="navbar-nav">
-                <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="/dash-user">Home</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/about">A Propos</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Profile</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/deconn_user">Deconnexion</a>
-                </li>
-                
-              </ul>
-            </div>
-          </div>
-        </nav>
+  {% if "user_logged" in session and session["user_logged"] %}
+  <header>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">JOB FINDER</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/dash-user">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/about">A Propos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/deconn_user">Deconnexion</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
   </header>
   <section id="about-section" class="p-100 mb-1 pb-2 bg-one-dark">
     <div class="container">
       <div class="row d-flex align-items-end">
         <div class="col-md-6 text-center">
-          <img src="{{url_for('static', filename='MYLOGO.jpg')}}" alt="Signature" class="img-fluid">
+          <div style="position: fixed top left;">
+            <img src="{{url_for('static', filename='MYLOGO.jpg')}}" alt="Signature" class="img-fluid">
+          </div>
         </div>
         <div class="col-md-6">
-           <h3 class="color-base">A Propos</h3>
-          <h2 class="mb-4">My Real Life is Up to You? I am a <span class="color-base">Front-end Developer</span>
+          <h3 class="color-base">About Us</h3>
+          <h2 class="mb-4">Le succès n'est pas la clé du bonheur. Le bonheur est la clé du succès.
+            <span class="color-base">Albert Schweitzer</span>
           </h2>
-          <p class="text-dark">Notre application web révolutionnaire simplifie votre recherche d'emploi en vous donnant accès à une vaste sélection d'offres provenant des trois principaux sites d'emploi au Maroc : Alwadifa, Emploi.ma et ReKrute.</p>
-          <div class="row">
-            <div class="col-md-6 about-bullet">
-              <ul class="bullet-check">
-                <li>Different of web development</li>
-                <li>Gun Violence Prevention</li>
-                <li>Eiusmod tempor incidid labore</li>
-              </ul>
-            </div>
-            <div class="col-md-6 about-bullet">
-              <ul class="bullet-check">
-                <li>Graphic designer living</li>
-                <li>Jiusmod tempor incididunt</li>
-              </ul>
-            </div>
-          </div>
-
+          <h4 class="text-dark">Notre application web révolutionnaire simplifie votre recherche d'emploi en vous donnant
+            accès à une vaste sélection d'offres provenant des trois principaux sites d'emploi au Maroc : Alwadifa,
+            Emploi.ma et ReKrute.</h4>
+          <h4 class="text-dark" id="more-text" style="display: none;">Plus besoin de passer des heures à consulter chaque site individuellement. Notre outil de scrapping intelligent collecte automatiquement les offres d'emploi publiées sur ces plateformes et les regroupe dans une interface conviviale. <br>
+          Vous pouvez facilement naviguer à travers les offres d'emploi, les trier par secteur d'activité, niveau d'expérience, localisation, et bien plus encore. Notre système de filtrage avancé vous permet de trouver rapidement les opportunités qui correspondent à vos critères spécifiques.</h4>
           <div class="wrap-button mt-50">
-            <a href="#" class="btn btn-medium btn-inline btn-fill mr-4">Cv Download</a>
+            <a href="#" class="btn btn-medium btn-inline btn-fill mr-4" id="show-more-btn">Show More</a>
+            <a href="#" class="btn btn-medium btn-inline btn-fill mr-4" id="show-less-btn" style="display: none;">Show Less</a>
           </div>
         </div>
       </div>
-
     </div>
   </section>
+  <div class="row d-flex justify-content-center flex-wrap gap-4 mt-4 mb-4" id="sec">
+   
+    <div class="card" style="width: 400px;">
+      <img src="{{url_for('static', filename='alwadifa.png')}}" width="100%" height="350px" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">ALWADIFA</h5>
+        <p class="card-text">Alwadifa est un site d'emploi très populaire au Maroc. Il relie les chercheurs d'emploi aux employeurs potentiels à travers le pays. Le site propose une large sélection d'offres d'emploi dans différents secteurs.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+    </div>
+
+    <!-- Deuxième nouvelle section -->
+    <div class="card" style="width: 400px;">
+      <img src="{{url_for('static', filename='alwadifa.png')}}" width="100%" height="350px" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">ALWADIFA</h5>
+        <p class="card-text">Alwadifa est un site d'emploi très populaire au Maroc. Il relie les chercheurs d'emploi aux employeurs potentiels à travers le pays. Le site propose une large sélection d'offres d'emploi dans différents secteurs.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+    </div>
+    <!-- Troisième nouvelle section -->
+    <div class="card" style="width: 400px;">
+      <img src="{{url_for('static', filename='alwadifa.png')}}" width="100%" height="350px" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">ALWADIFA</h5>
+        <p class="card-text">Alwadifa est un site d'emploi très populaire au Maroc. Il relie les chercheurs d'emploi aux employeurs potentiels à travers le pays. Le site propose une large sélection d'offres d'emploi dans différents secteurs.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+    </div>
+    
+</div>
+<div class="container">
+  <p class="text-muted text-center">
+      Made with ♥ taha chaoukat for best chance
+  </p>
+  <h6 class="text-muted text-center">
+      <small>
+          <a href="http://www.contact.com/contact-me/">Contact Me</a>
+      </small>
+  </h6>
+</div>
+</section>
   {% else %}
   <script>
-        
-    window.onload=function(){
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Access Denied !! ',
-            showConfirmButton: false,
-            timer: 1500
-          })
-        setTimeout(()=>{
-            
-            window.location.href="/"
-
-        },2000)
+    window.onload = function () {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Access Denied !! ',
+        showConfirmButton: false,
+        timer: 1500
+      })
+      setTimeout(() => {
+        window.location.href = "/"
+      }, 2000)
     }
-    
-</script>
-{% endif %}
-  
-    </body>
-    </html>
+  </script>
+  {% endif %}
+
+  <script>
+    const showMoreBtn = document.getElementById('show-more-btn');
+    const showLessBtn = document.getElementById('show-less-btn');
+    const moreText = document.getElementById('more-text');
+
+    showMoreBtn.addEventListener('click', function () {
+      showMoreBtn.style.display = 'none';
+      showLessBtn.style.display = 'inline-block';
+      moreText.style.display = 'block';
+    });
+
+    showLessBtn.addEventListener('click', function () {
+      showMoreBtn.style.display = 'inline-block';
+      showLessBtn.style.display = 'none';
+      moreText.style.display = 'none';
+    });
+  </script>
 </body>
+
 </html>
