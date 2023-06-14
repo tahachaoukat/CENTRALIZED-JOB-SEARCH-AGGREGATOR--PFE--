@@ -39,7 +39,7 @@ def emploi_ma_scraping(keyword, num_offres):
 
     if len(jobs) >= num_offres:
         df = pd.DataFrame(jobs[:num_offres])
-        filepath = input("Entrez le nom du fichier Excel de sortie : ") + ".xlsx"
+        filepath = "offres_emploi.xlsx"
         df.to_excel(filepath, index=False)
         print(f"Les données ont été enregistrées dans le fichier '{filepath}'.")
     else:

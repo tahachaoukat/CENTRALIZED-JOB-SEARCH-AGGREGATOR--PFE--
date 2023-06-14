@@ -47,7 +47,7 @@ def check_admin():
             
             
           else:
-              return "<h1>your are not admin</h1>" 
+              return render_template("page_login_admin.html") 
     if request.method=="GET":
         return redirect("/dash",code=302)              
 
@@ -72,7 +72,7 @@ def check():
             
             
           else:
-              return "<h1>your are not admin</h1>" 
+              return render_template("page_login.html")
 @app.route("/register")
 def register():
     return render_template("page_register.html")
@@ -189,6 +189,12 @@ def download_file(filename):
 @app.route("/wadifashow")
 def wshow():
     return render_template("wadifa.html")
+@app.route("/rekrute")
+def Rshow():
+    return render_template("rekrute.html")
+@app.route("/emploi")
+def Eshow():
+    return render_template("emploi.html")
 @app.route("/wadifapost",methods=["POST","GET"])
 def wpost():
     if request.method=="POST":

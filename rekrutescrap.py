@@ -70,5 +70,5 @@ for i in range(1, 5):
     liste_of_datas.append(data)
 
 data_frame = pd.concat(liste_of_datas, axis=0).reset_index(drop=True)
-file_name = input('Entrez le nom du fichier Excel : ')
+file_name = "offres_rekrute"  # Set the fixed file name
 data_frame.to_excel(file_name + '.xlsx', index=False)
