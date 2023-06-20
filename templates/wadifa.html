@@ -9,6 +9,10 @@
     <script src="
     https://cdn.jsdelivr.net/npm/sweetalert2@11.7.11/dist/sweetalert2.all.min.js
     "></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+     <script src="https://unpkg.com/intro.js/intro.js"></script>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.1.0/introjs.min.css">
+
     <style>
         body{
             font-family: "Rubik", sans-serif;
@@ -49,12 +53,14 @@
 <section>
     <h2 class="text-center mt-2">Chercher Al Wadifa</h2>
     <div class="choice d-flex justify-content-around mt-3 gap-5">
-     <button class="btn btn-outline-primary px-2 py-2" id="sans">Chercher Sans Filtrage</button>
-     <button class="btn btn-outline-success px-2 py-2" id="avec" >Chercher Avec Filtrage</button>
+     <button class="btn btn-outline-primary px-2 py-2" id="sans">Commencer La Recherche</button>
     </div>
    <div class="form_place"></div>
    {% if "success_wadifa" in session and session["success_wadifa"] %}
-    <a href="{{url_for('download_file',filename=session['named_file']+'.xlsx')}}">Telecharger</a>
+   <div class="d-flex justify-content-center mt-5">
+    
+     <a href="{{url_for('download_file',filename=session['named_file']+'.xlsx')}}" class="btn btn-success mt-5" id="file1" > <i class="fa-solid fa-file-excel "></i> &nbsp; Telecharger Le Fichier</a>
+   </div>
     
    
     {% else %}
@@ -79,11 +85,11 @@
                     <div class="row mt-2">
                         <div class="col-sm">
                             <label for="">Nom de Poste : </label><br>
-                            <input type="text" name="sans_offrenom" class="form-control mb-2"  id="">
+                            <input type="text" name="sans_offrenom" class="form-control mb-2"  id="nom_post">
                         </div>
                         <div class="col-sm">
                             <label for="">Nommer Votre Fichier: </label><br>
-                            <input type="text" name="nomfile" class="form-control mb-2"  id="">
+                            <input type="text" name="nomfile" class="form-control mb-2"  id="nom_fichier">
                         </div>
                     </div>
                     <div class="row justify-content-center mt-3">
@@ -94,47 +100,52 @@
            </div>
         </div>
     </div>`;
-    btn1.onclick=()=>{
-     place.innerHTML=f1;
-     btn2.disabled=true;
-    }
+   
     /*exemple du test*/
-    let f2=` <div class="sans mt-5">
+    function int(){
+      var intro = introJs();
+      intro.setOptions({
+        steps: [
+          {
+            intro: "Welcome to the page! Let's get started.",
+          },
+          {
+            element: '#sans',
+            intro: "This is a button. Click on it to proceed!",
+            position: 'bottom'
+          }
+        ]
+      });
+      
+      intro.start();
+    }
+    document.addEventListener("DOMContentLoaded", function() {
+      int()
+    });
+    btn1.onclick=()=>{
+      place.innerHTML=f1;
+      var intro = introJs();
+      intro.setOptions({
+        steps: [
+          
+        {
+          element: '#nom_post',
+          intro: "Entrer Le nom du Poste Recherché",
+          position: 'bottom'
+        },
+        {
+          element: '#nom_fichier',
+          intro: "Enter ici le nom du fichier pour le télecharger",
+          position: 'bottom'
+        },
+        ]
+      });
+      intro.start();
 
-      <div class="d-flex justify-content-center">
-         <div class="card">
-             <div class="card-header bg-white">
-              <h4 class="text-center mt-2">Chercher Avec Filtrage</h4>
-             </div>
-             <div class="card-body bg-light">
-              <form action="/wadifapost" method="post">
-                  <div class="row mt-2">
-                      <div class="col-sm">
-                          <label for="">Titre de l'offre: </label><br>
-                          <input type="text" name="sans_offrenom" class="form-control mb-2"  id="">
-                      </div>
-                      <div class="col-sm">
-                          <label for="">Date de l'offre</label><br>
-                          <input type="text" name="nomfile" class="form-control mb-2"  id="">
-                      </div>
-                      <div class="col-sm">
-                        <label for="">Nommer Votre Fichier: </label><br>
-                        <input type="text" name="nomfile" class="form-control mb-2"  id="">
-                    </div>
-                    
-                  </div>
-                  <div class="row justify-content-center mt-3">
-                       <button class="btn btn-primary">Chercher</button>
-                  </div>
-              </form>
-             </div>
-         </div>
-      </div>
-  </div>`;
-  btn2.onclick=()=>{
-   place.innerHTML=f2;
-   btn1.disabled=true;
-  }
+     }
+</script>
+<script>
+
 </script>
 {% else %}
 <script>

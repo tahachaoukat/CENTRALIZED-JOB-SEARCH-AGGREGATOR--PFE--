@@ -179,6 +179,79 @@ def alwadifa_scraping(keyword,named_file):
         return "auncun"
 # end Scrapping Function wadifa sans filter
 
+#scrapping rekrute
+def recrute_scraping(keyword, number,filename):
+    number = str(number)
+    keyword = urllib.parse.quote(keyword)  # Encode le mot-clé pour l'utiliser dans l'URL
+    new_url = f"https://www.rekrute.com/offres.html?p={number}&s=1&o=1&query={keyword}&keyword={keyword}&st=d"
+    
+    webpage = urllib.request.urlopen(new_url)
+    soup = BeautifulSoup(webpage, "html.parser")
+    results = soup.find_all("div", {"class": "col-sm-10 col-xs-12"})
+   
+    titles = []
+    descs = []
+    entres = []
+    objecs = []
+    publis = []
+    secteurs = []
+    job_links = []  # Nouvelle liste pour stocker les liens de l'offre
+
+    for result in results:
+        title = result.find("a").text
+        titles.append(title)
+
+        try:
+            description_du_poste = result.find("span", {"style": "color: #5b5b5b; font-style : italic;"}).text
+        except:
+            description_du_poste = result.find("span", {"style": "color: #5b5b5b;margin-top: 5px;"}).text
+        descs.append(description_du_poste)
+
+        entreprise = result.find("span", {"style": "color: #5b5b5b;"}).text
+        entres.append(entreprise)
+
+        objectif = result.find("span", {"style": "color: #5b5b5b;margin-top: 5px;"}).text
+        objecs.append(objectif)
+
+        publication = result.find("em", {"class": "date"}).text
+        publis.append(publication)
+
+        secteur = result.find("li").text.replace(' \n', '')
+        secteurs.append(secteur)
+
+        # Extraction du lien de l'offre
+        job_link = result.find("a")["href"]
+        base_url = "https://www.rekrute.com"
+        job_link_full = urllib.parse.urljoin(base_url, job_link)
+        job_links.append(job_link_full)
+
+    jobs = {
+        "Titre de l'offre": titles,
+        "Description de poste": descs,
+        "Entreprise": entres,
+        "Objectif": objecs,
+        "Publication": publis,
+        "Secteur": secteurs,
+        "Lien de l'offre": job_links  # Ajout du lien de l'offre
+    }
+
+    data = pd.DataFrame(jobs)
+    
+    liste_of_datas = []
+
+    for i in range(1, 5):
+    
+     liste_of_datas.append(data)
+
+    data_frame = pd.concat(liste_of_datas, axis=0).reset_index(drop=True)
+      # Set the fixed file name
+    directory = 'Files'
+    
+    filepath = os.path.join(directory, f"{filename}.xlsx")
+    data_frame.to_excel(filepath, index=True)
+    
+    return jsonify("siii")
+   
 # Scrapping Routes 
 
 @app.route('/download/<path:filename>')
@@ -214,11 +287,26 @@ def wpost():
           cursor.execute("INSERT INTO files(name,user_id) VALUES(%s,%s)",(nom_offre,session["user_id"]))
           mysql.connection.commit()
           cursor.close()
-          
           return render_template("wadifa.html",href=session["named_file"])
         
      else : 
          return jsonify("unsucess")
+    #  Recrute calling function
+@app.route("/rekrutepost",methods=["POST","GET"])
+def postrecrute():
+    if request.method=="POST":
+        filename=session["user_name"]+"recrute"
+        my_keyword=request.form["keyword"]
+        my_number=request.form["nombre"]
+        if recrute_scraping(my_keyword,my_number,filename):
+            session["success_rekrute"]=True
+            session["named_file"]=filename
+           
+            return render_template("rekrute.html",href=session["named_file"])
+             
+        else:
+            return jsonify("unsuccess recrute")    
+    
 
           
     

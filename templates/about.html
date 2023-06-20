@@ -11,7 +11,9 @@
     integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.11/dist/sweetalert2.all.min.js"></script>
   <style>
-   
+   .align-items-end{
+    align-items: flex-start !important;
+   }
     body {
       font-family: "Rubik", sans-serif;
       color: #1c1c1c;
@@ -250,7 +252,7 @@
       <div class="row d-flex align-items-end">
         <div class="col-md-6 text-center">
           <div style="position: fixed top left;">
-            <img src="{{url_for('static', filename='about.jpg')}}" alt="Signature" class="img-fluid">
+            <img src="{{url_for('static', filename='quote.jpg')}}" alt="Signature" class="img-fluid">
           </div>
         </div>
         <div class="col-md-6">
@@ -331,21 +333,21 @@
   {% endif %}
 
   <script>
-    const showMoreBtn = document.getElementById('show-more-btn');
     const showLessBtn = document.getElementById('show-less-btn');
+    const showMoreBtn = document.getElementById('show-more-btn');
     const moreText = document.getElementById('more-text');
 
     showMoreBtn.addEventListener('click', function () {
-      showMoreBtn.style.display = 'none';
       showLessBtn.style.display = 'inline-block';
-      moreText.style.display = 'block';
-    });
-
-    showLessBtn.addEventListener('click', function () {
-      showMoreBtn.style.display = 'inline-block';
-      showLessBtn.style.display = 'none';
+      showMoreBtn.style.display = 'none';
       moreText.style.display = 'none';
     });
+    showLessBtn.addEventListener('click', function () {
+      showLessBtn.style.display = 'none';
+      showMoreBtn.style.display = 'inline-block';
+      moreText.style.display = 'block';
+    });
+    
   </script>
 </body>
 
