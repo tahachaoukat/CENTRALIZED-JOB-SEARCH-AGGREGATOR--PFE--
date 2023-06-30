@@ -8,6 +8,8 @@ import urllib.request
 import pandas as pd
 import os
 import time as t
+import pymysql
+import json
 
 app = Flask(__name__)
 secret_key=secrets.token_hex(16)
@@ -23,27 +25,78 @@ def index():
     return render_template('index.html')
 @app.route('/dash')
 def dashb():
-    return render_template('dashbord.html')
+
+    cursor=mysql.connection.cursor()
+    query=cursor.execute("SELECT profession, COUNT(*) AS count FROM users GROUP BY profession")
+    if query :
+     result=cursor.fetchall()
+     #chart graphe pour les villes 
+     cursor3=mysql.connection.cursor()
+     query3=cursor3.execute("SELECT ville, COUNT(*) AS count FROM users GROUP BY ville")
+    if query3 :
+     result3=cursor3.fetchall()
+    
+     return render_template('dashbord.html',data=result,data3=result3) 
+    
+
+
+     # Informations de connexion à la base de données
+    # serveur = "localhost"
+    # nomUtilisateur = "root"
+    # nomBaseDeDonnees = "flask"
+
+    # try:
+        # Connexion à la base de données
+        # connexion = pymysql.connect(host=serveur, user=nomUtilisateur, database=nomBaseDeDonnees)
+
+        # Requête pour récupérer les données des professions
+        # requete = "SELECT profession, COUNT(*) AS count FROM users GROUP BY profession"
+        # with connexion.cursor() as cursor:
+        #     cursor.execute(requete)
+        #     resultat = cursor.fetchall()
+
+    #     # Conversion des données en tableaux utilisables par Chart.js
+    #     labels = []
+    #     data = []
+
+    #     for row in resultat:
+    #       labels.append(row[0])  # Accès à l'élément avec l'indice 0 (profession)
+    #       data.append(row[1])  # Accès à l'élément avec l'indice 1 (count)
+
+    #     # Fermeture de la connexion à la base de données
+    #     connexion.close()
+    # except pymysql.Error as e:
+    #     # Gestion des erreurs de connexion à la base de données
+    #     return "Erreur de connexion à la base de données : " + str(e)
+    # return render_template('dashbord.html')
 @app.route("/check_admin",methods=["POST","GET"])
 def check_admin():
     if request.method=="POST":
         
           username=request.form["username"]
           passw=request.form["pass"]
+         
+           
           cursor=mysql.connection.cursor()
           query=cursor.execute("SELECT * FROM admin WHERE userame=%s AND pass=%s",(username,passw))
           if query:   
             
-             result=cursor.fetchall()
+            result=cursor.fetchall()
              
-             if result:
+            if result:
+                 cursor2=mysql.connection.cursor()
+                 query2=cursor2.execute("SELECT profession, COUNT(*) AS count FROM users GROUP BY profession")
+                 result2=cursor2.fetchall()
+                 cursor3=mysql.connection.cursor()
+                 query3=cursor3.execute("SELECT ville, COUNT(*) AS count FROM users GROUP BY ville")
+                 result3=cursor3.fetchall()
                  session["admin_logged"]=True
                  session["admin_name"]=result[0][4]
                  current_datetime = datetime.now()
                  formatted_datetime = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
                  session["logged_time"]=formatted_datetime
                  
-                 return render_template("dashbord.html")
+                 return render_template("dashbord.html",data=result2,data3=result3)
             
             
           else:
@@ -90,8 +143,9 @@ def login():
         email=request.form["email"]
         password= request.form["pswd"]
         profession=request.form["prof"]
+        ville = request.form["Ville"]
         cursor=mysql.connection.cursor()
-        cursor.execute("INSERT INTO users(username,email,pass,profession) VALUES(%s,%s,%s,%s)",(nom,email,password,profession))
+        cursor.execute("INSERT INTO users(username,email,pass,profession,ville) VALUES(%s,%s,%s,%s,%s)",(nom,email,password,profession,ville))
         mysql.connection.commit()
         cursor.close()
        

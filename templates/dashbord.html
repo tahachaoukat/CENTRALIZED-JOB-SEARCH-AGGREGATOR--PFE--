@@ -14,6 +14,10 @@
         <script src="
 https://cdn.jsdelivr.net/npm/sweetalert2@11.7.11/dist/sweetalert2.all.min.js
 "></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+
     </head>
       {% if "admin_logged" in session and  session["admin_logged"] %}
       <body class="sb-nav-fixed">
@@ -143,9 +147,50 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.11/dist/sweetalert2.all.min.js
                                 <div class="card mb-4">
                                     <div class="card-header">
                                         <i class="fas fa-chart-area me-1"></i>
-                                        Area Chart Example
+                                        Pie chart
                                     </div>
-                                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                                    <div class="card-body">
+                                        <!-- <canvas id="myAreaChart" width="100%" height="40"></canvas> -->
+                                        <div id="piechart" style="width: 500px; height: 500px;"></div>
+                                        <!-- <script>
+                                            // Récupération des données du serveur Flask
+                                            var labels = JSON.parse('{{ labels|safe }}');
+                                            var data = JSON.parse('{{ data|safe }}');
+                                        
+                                            // Création du graphique avec les données récupérées
+                                            var ctx = document.getElementById('myAreaChart').getContext('2d');
+                                            var chart = new Chart(ctx, {
+                                              type: 'pie',
+                                              data: {
+                                                labels: labels,
+                                                datasets: [{
+                                                  label: 'Nombre d\'utilisateurs',
+                                                  data: data,
+                                                  backgroundColor: [
+                                                    'rgb(255, 0, 0)',
+                                                    'rgba(0, 51, 255, 0.8)',
+                                                    'rgba(252, 12, 255, 0.8)',
+                                                    'rgba(253, 255, 0, 0.88)',
+                                                    'rgba(0, 0, 0, 1)',
+                                                    'rgba(253, 255, 0, 0.88)'
+                                                  ],
+                                                  borderColor: [
+                                                    'rgba(255, 255, 255, 0.88)',
+                                                    'rgba(255, 255, 255, 0.88)',
+                                                    'rgba(255, 255, 255, 0.88)',
+                                                    'rgba(255, 255, 255, 0.88)',
+                                                    'rgba(255, 255, 255, 0.88)',
+                                                    'rgba(255, 255, 255, 0.88)',
+                                                  ],
+                                                  borderWidth: 1
+                                                }]
+                                              },
+                                              options: {
+                                                responsive: true
+                                              }
+                                            });
+                                          </script> -->
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-xl-6">
@@ -154,7 +199,12 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.11/dist/sweetalert2.all.min.js
                                         <i class="fas fa-chart-bar me-1"></i>
                                         Bar Chart Example
                                     </div>
-                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                                    <div class="card-body">
+                                        <!-- <div id="piechart2" style="width: 500px; height: 500px;"></div> -->
+                                        <div id="chart_div" style="width: 500px; height: 500px;"></div>
+
+                                        <!-- <canvas id="myBarChart" width="100%" height="40"></canvas> -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -197,7 +247,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.11/dist/sweetalert2.all.min.js
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2021</div>
+                            <div class="text-muted">Copyright &copy; Job Finder APP 2023</div>
                             <div>
                                 <a href="#">Privacy Policy</a>
                                 &middot;
@@ -227,10 +277,76 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.11/dist/sweetalert2.all.min.js
             
             });
         </script>
+        <!-- Chart 1 -->
+        <script type="text/javascript">
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(drawChart);
+      
+            function drawChart() {
+                var mydata={{ data | tojson }}
+                mydata.unshift(['Task', 'Hours per Day'])
+      
+              var data = google.visualization.arrayToDataTable(mydata);
+      
+              var options = {
+                title: 'Effectif utilisateur par domaine',
+                
+              };
+      
+              var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+              
+      
+              chart.draw(data, options);
+              
+              
+              
+             
+              
+            }
+          </script>
+          <script>
+            google.charts.load('current', {'packages':['corechart']});
+      
+      // Lorsque la bibliothèque est chargée
+      google.charts.setOnLoadCallback(drawChart);
+      
+      // Fonction pour dessiner le graphique
+      function drawChart() {
+
+       // recuperer les données
+       var rec_data={{data3 | tojson}}
+          rec_data.unshift(["Ville :", "Utilisateurs :"])
+        // Créer les données du tableau
+    
+        var data2 = google.visualization.arrayToDataTable(rec_data);
+
+        // Options du graphique
+        var options = {
+          title: 'Nombre d\'utilisateur par ville',
+          chartArea: {width: '50%'},
+          hAxis: {
+            title: 'Nb D\'utilisateurs',
+            minValue: 0
+          },
+          vAxis: {
+            title: 'Ville'
+          }
+        };
+
+        // Créer l'instance du graphique à colonnes
+        var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+
+        // Dessiner le graphique avec les données et options
+        chart.draw(data2, options);
+      }
+          </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
         
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+         <!-- Tidio Chat bot integration -->
+        <!-- <script src="//code.tidio.co/sbbprtynjqqo6768k0q4jrfda8kmvtuf.js" async></script> -->
+       
         
     </body>
     {% else %}
