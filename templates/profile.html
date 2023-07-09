@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    
+    <!-- Bootstrap cdn  -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.11/dist/sweetalert2.all.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    
+
+    <style>
+      body{
+        margin-top:20px;
+        color: #1a202c;
+        text-align: left;
+        background-color: #e2e8f0;    
+    }
+    .main-body {
+        padding: 15px;
+    }
+    .card {
+        box-shadow: 3px 3px 10px rgba(0,0,0,.1), 3px 3px 10px rgba(0,0,0,.06);
+    }
+    
+    .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 0 solid rgba(0,0,0,.125);
+        border-radius: .25rem;
+    }
+    
+    .card-body {
+        flex: 1 1 auto;
+        min-height: 1px;
+        padding: 1rem;
+    }
+    
+    .gutters-sm {
+        margin-right: -8px;
+        margin-left: -8px;
+    }
+    
+    .gutters-sm>.col, .gutters-sm>[class*=col-] {
+        padding-right: 8px;
+        padding-left: 8px;
+    }
+    .mb-3, .my-3 {
+        margin-bottom: 1rem!important;
+    }
+    
+    .bg-gray-300 {
+        background-color: #e2e8f0;
+    }
+    .h-100 {
+        height: 100%!important;
+    }
+    .shadow-none {
+        box-shadow: none!important;
+    }
+    .cls{
+      position: relative;
+    }
+    .cls::before{
+      content:"";
+      width: 25px;
+      height: 25px;
+      margin-left: -50px;
+      margin-top: 10px;
+      position: absolute;
+      background-color: rgb(2, 121, 219);
+      border-radius: 50%;
+
+    }
+    .cls::after{
+      content:"";
+      width: 25px;
+      height: 25px;
+      margin-left: 28px;
+      margin-top: 10px;
+      position: absolute;
+      background-color: rgb(2, 121, 219);
+     
+      border-radius: 50%;
+
+    }
+    
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body class="bg-light">
+    {% if "user_logged" in session and session["user_logged"] %}
+    {% include 'menu.html' %}
+    <h2 class="text-center cls" style="font-family: cursive;text-shadow:1px 1px 10px rgb(33, 159, 201)">Profil Utilisateur</h2>
+   
+
+   
+    <!-- New Generation -->
+    <div class="container mt-4" id="container">
+      <div class="main-body">
+      
+            <!-- Breadcrumb -->
+            
+            <!-- /Breadcrumb -->
+      
+            <div class="row gutters-sm">
+              <div class="col-md-4 mb-3">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="d-flex flex-column align-items-center text-center">
+                      <img src="{{url_for('static', filename='/Profils/'+ session['image'])}}" alt="Admin" class="rounded-circle" width="150">
+                      <div class="mt-3">
+                        <h4>{{ session["user_name"] }}</h4>
+                        <p class="text-secondary mb-1"><b>Domaine : </b> {{ session["profession"] }}  </p>
+                        <p class="text-muted font-size-sm mb-4">{{ session["ville"] }}</p>
+                       
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+              <div class="col-md-8">
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <h6 class="mb-0">Full Name</h6>
+                      </div>
+                      <div class="col-sm-9 text-secondary">
+                        {{ session["user_name"] }}
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <h6 class="mb-0">Email</h6>
+                      </div>
+                      <div class="col-sm-9 text-secondary">
+                        {{ session["user_email"] }}
+                      </div>
+                    </div>
+                    <hr>
+                  
+                    
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <h6 class="mb-0">Ville</h6>
+                      </div>
+                      <div class="col-sm-9 text-secondary">
+                        {{ session["ville"] }}
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <h6 class="mb-0">Domaine</h6>
+                      </div>
+                      <div class="col-sm-9 text-secondary">
+                        {{ session["profession"] }}
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <button class="btn btn-info mb-2 " id="pdfButton">Print</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  
+               
+  
+  
+  
+              </div>
+            </div>
+  
+          </div>
+      </div>
+      
+<script>
+  document.getElementById("pdfButton").addEventListener("click", function() {
+    print();
+  });
+</script>
+
+    {% else %}
+  <script>
+    window.onload = function () {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Access Denied !! ',
+        showConfirmButton: false,
+        timer: 1500
+      })
+      setTimeout(() => {
+        window.location.href = "/"
+      }, 2000)
+    }
+  </script>
+  {% endif %}
+</body>
+</html>

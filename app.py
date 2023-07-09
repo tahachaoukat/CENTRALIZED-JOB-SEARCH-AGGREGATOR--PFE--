@@ -10,6 +10,8 @@ import os
 import time as t
 import pymysql
 import json
+import shutil
+import uuid
 
 app = Flask(__name__)
 secret_key=secrets.token_hex(16)
@@ -69,6 +71,9 @@ def dashb():
     #     # Gestion des erreurs de connexion à la base de données
     #     return "Erreur de connexion à la base de données : " + str(e)
     # return render_template('dashbord.html')
+@app.route("/profil")
+def Profile():
+    return render_template("profile.html")    
 @app.route("/check_admin",methods=["POST","GET"])
 def check_admin():
     if request.method=="POST":
@@ -106,6 +111,7 @@ def check_admin():
 
 @app.route('/check',methods=["POST","GET"])
 def check():
+      
       if "user_logged" in session and session["user_logged"]:
           return redirect("/dash-user")
       if request.method=="POST":
@@ -119,6 +125,10 @@ def check():
              if result:
                  session["user_logged"]=True
                  session["user_name"]=result[0][1]
+                 session["user_email"]=result[0][2]
+                 session["ville"]=result[0][5]
+                 session["profession"]=result[0][4]
+                 session["image"]=result[0][6]
                  session["user_id"]=result[0][0]
                  return render_template("user.html")
                  
@@ -133,25 +143,60 @@ def register():
 def admin():
     if "admin_logged" in session and session["admin_logged"]:
         return redirect("/dash")
-    return render_template("page_login_admin.html")             
+    return render_template("page_login_admin.html")
+            
 @app.route("/login",methods=["POST","GET"])
 def login():
+    
     if "user_logged" in session and session["user_logged"]:
         return redirect("/dash-user")
-    if request.method=="POST":
-        nom=request.form["nom"]
-        email=request.form["email"]
-        password= request.form["pswd"]
-        profession=request.form["prof"]
-        ville = request.form["Ville"]
-        cursor=mysql.connection.cursor()
-        cursor.execute("INSERT INTO users(username,email,pass,profession,ville) VALUES(%s,%s,%s,%s,%s)",(nom,email,password,profession,ville))
-        mysql.connection.commit()
-        cursor.close()
+    
+    if request.method == "POST":
+
+       nom=request.form["nom"]
+       file=request.files["file"]
+       email = request.form["email"]
+       password = request.form["pswd"]
+       profession = request.form["prof"]
+       ville = request.form["Ville"]
+       if file :
+           file_name=file.filename
+           destination = os.path.join(app.root_path, 'static', 'Profils', file_name)
+           file.save(destination)
+    
+    # Définir le répertoire de stockage
+    #    storage_directory = "/static/Profils"
+    
+    #    if not os.path.exists(storage_directory):
+        # os.makedirs(storage_directory)
+    
+    # Générer un nom unique pour le fichier
+    #    unique_filename = str(uuid.uuid4()) + "_" + file.filename
+    
+    # Construire le chemin complet du fichier
+    #    file_path = os.path.join(storage_directory, unique_filename)
+    
+    # Enregistrer le fichier dans le répertoire de stockage
+    #    with open(file_path, "wb") as f:
+        # shutil.copyfileobj(file, f)
+    
+    # Définir les permissions appropriées sur le fichier
+    #    os.chmod(file_path, 0o777)
+    
+    # Utiliser le nom du fichier enregistré dans la suite de votre code si nécessaire
+    #    file_name = unique_filename
+    
+       cursor = mysql.connection.cursor()
+       cursor.execute("INSERT INTO users(username,email,pass,profession,ville,image) VALUES(%s,%s,%s,%s,%s,%s)", (nom, email, password, profession, ville, file_name))
+       mysql.connection.commit()
+       cursor.close()
        
     
                
     return render_template('page_login.html')
+    # return jsonify(file.filename)
+    
+   
 
 
 @app.route("/dash-user")

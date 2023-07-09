@@ -220,33 +220,7 @@
 
 <body>
   {% if "user_logged" in session and session["user_logged"] %}
-  <header>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="/">JOB FINDER</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/dash-user">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/about">A Propos</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Profile</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/deconn_user">Deconnexion</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>
+  {% include 'menu.html' %}
   <section id="about-section" class="p-100 mb-1 pb-2 bg-one-dark">
     <div class="container">
       <div class="row d-flex align-items-end">
