@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WAdifa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="
+    https://cdn.jsdelivr.net/npm/sweetalert2@11.7.11/dist/sweetalert2.all.min.js
+    "></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+     <script src="https://unpkg.com/intro.js/intro.js"></script>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.1.0/introjs.min.css">
+
+    <style>
+        body{
+            font-family: "Rubik", sans-serif;
+            background-color: #d8d8d8;
+        }
+      
+    </style>
+</head>
+<body>
+{% if "user_logged" in session and session["user_logged"] %}
+{% include 'menu.html' %}
+<section>
+    <h2 class="text-center mt-2">Chercher Al Wadifa</h2>
+    <div class="choice d-flex justify-content-around mt-3 gap-5">
+     <button class="btn btn-outline-primary px-2 py-2" id="sans">Commencer La Recherche</button>
+    </div>
+   <div class="form_place"></div>
+   {% if "success_wadifa" in session and session["success_wadifa"] %}
+   <div class="d-flex justify-content-center mt-5">
+    
+     <a href="{{url_for('download_file',filename=session['named_file']+'.xlsx')}}" class="btn btn-success mt-5" id="file1" > <i class="fa-solid fa-file-excel "></i> &nbsp; Telecharger Le Fichier</a>
+   </div>
+    
+   
+    {% else %}
+    {{message}}
+   {% endif %}
+   </div>
+
+</section>
+<script>
+    let btn1=document.querySelector("#sans");
+    let btn2=document.querySelector("#avec");
+    let place=document.querySelector(".form_place");
+    let f1=` <div class="sans mt-5">
+
+        <div class="d-flex justify-content-center">
+           <div class="card">
+               <div class="card-header bg-white">
+                <h4 class="text-center mt-2">Chercher Sans Filtrage</h4>
+               </div>
+               <div class="card-body bg-light">
+                <form action="/wadifapost" method="post">
+                    <div class="row mt-2">
+                        <div class="col-sm">
+                            <label for="">Nom de Poste : </label><br>
+                            <input type="text" name="sans_offrenom" class="form-control mb-2"  id="nom_post">
+                        </div>
+                        <div class="col-sm">
+                            <label for="">Nommer Votre Fichier: </label><br>
+                            <input type="text" name="nomfile" class="form-control mb-2"  id="nom_fichier">
+                        </div>
+                    </div>
+                    <div class="row justify-content-center mt-3">
+                         <button class="btn btn-primary">Chercher</button>
+                    </div>
+                </form>
+               </div>
+           </div>
+        </div>
+    </div>`;
+   
+    /*exemple du test*/
+    function int(){
+      var intro = introJs();
+      intro.setOptions({
+        steps: [
+          {
+            intro: "Welcome to the page! Let's get started.",
+          },
+          {
+            element: '#sans',
+            intro: "This is a button. Click on it to proceed!",
+            position: 'bottom'
+          }
+        ]
+      });
+      
+      intro.start();
+    }
+    document.addEventListener("DOMContentLoaded", function() {
+      int()
+    });
+    btn1.onclick=()=>{
+      place.innerHTML=f1;
+      var intro = introJs();
+      intro.setOptions({
+        steps: [
+          
+        {
+          element: '#nom_post',
+          intro: "Entrer Le nom du Poste Recherché",
+          position: 'bottom'
+        },
+        {
+          element: '#nom_fichier',
+          intro: "Enter ici le nom du fichier pour le télecharger",
+          position: 'bottom'
+        },
+        ]
+      });
+      intro.start();
+
+     }
+</script>
+<script>
+
+</script>
+{% else %}
+<script>
+        
+    window.onload=function(){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Access Denied !! ',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        setTimeout(()=>{
+            
+            window.location.href="/login"
+
+        },2000)
+    }
+    
+</script>
+
+{% endif %}
+
+</body>
+</html>
