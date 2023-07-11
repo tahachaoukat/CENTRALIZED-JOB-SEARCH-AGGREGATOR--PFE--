@@ -86,14 +86,16 @@ def Show(id):
     return render_template("show.html",user=cursor.fetchall())
 
 @app.route("/users-delete/<id>")
-def Dell(id):
-    cursor=mysql.connection.cursor()
-    cursor.execute(f"DELETE  FROM users WHERE id={id}")
+def Del(id):
+    cursor2=mysql.connection.cursor()
+    cursor2.execute(f" DELETE  FROM users WHERE id={id}")
     mysql.connection.commit()
-    cursor.close()
+    cursor2.close()
+    
    
   
-    return  render_template("dashbord.html")
+    #
+    return redirect("/dash")
 
 @app.route("/profil")
 def Profile():
